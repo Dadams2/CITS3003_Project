@@ -1,4 +1,4 @@
-#!/bin/csh
+#!/bin/zsh
 #
 #This C-shell script helps you set up the symbolic links to the shared library
 #(or shared object) file for assimp. You only need to run this script once.
