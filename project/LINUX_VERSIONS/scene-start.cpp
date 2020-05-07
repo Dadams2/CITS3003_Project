@@ -370,6 +370,12 @@ void display( void )
 
     view = Translate(0.0, 0.0, -viewDist);
 
+// PART A Implementation
+    view *= RotateX(camRotUpAndOverDeg);
+    view *= RotateY(camRotSidewaysDeg);
+
+
+
     SceneObject lightObj1 = sceneObjs[1]; 
     vec4 lightPosition = view * lightObj1.loc ;
 
