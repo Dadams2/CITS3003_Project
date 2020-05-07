@@ -339,9 +339,10 @@ void drawMesh(SceneObject sceneObj)
     // Set the model matrix - this should combine translation, rotation and scaling based on what's
     // in the sceneObj structure (see near the top of the program).
 
+// PART B Implementation
+
     mat4 model = Translate(sceneObj.loc) * RotateZ(sceneObj.angles[2]) * RotateY(sceneObj.angles[1]) * RotateX(sceneObj.angles[0]) * Scale(sceneObj.scale);
 
-// PART B Implementation
 
 
     // Set the model-view matrix for the shaders
@@ -440,10 +441,22 @@ static void adjustRedGreen(vec2 rg)
     sceneObjs[toolObj].rgb[1]+=rg[1];
 }
 
+
 static void adjustBlueBrightness(vec2 bl_br)
 {
     sceneObjs[toolObj].rgb[2]+=bl_br[0];
     sceneObjs[toolObj].brightness+=bl_br[1];
+}
+
+//PART C HANDLERS
+static void adjustAmbient(vec2 am){
+    sceneObjs[toolObj].ambient += am[0];
+    sceneObjs[toolObj].diffuse += am[1];
+}
+
+static void adjustShine(vec2 sh){
+    sceneObjs[toolObj].specular += sh[0];
+    sceneObjs[toolObj].shine += sh[1];
 }
 
 static void lightMenu(int id)
@@ -497,7 +510,11 @@ static void materialMenu(int id)
         setToolCallbacks(adjustRedGreen, mat2(1, 0, 0, 1),
                          adjustBlueBrightness, mat2(1, 0, 0, 1) );
     }
-    // You'll need to fill in the remaining menu items here.                                                
+//  PART C IMPLEMENTATION
+    if(id=20) {
+        setToolCallbacks(adjustAmbient, mat2(1, 0, 0, 1),
+                         adjustShine, mat2(1, 0, 0, 20) );
+    }                                               
     else {
         printf("Error in materialMenu\n");
     }
@@ -538,7 +555,8 @@ static void makeMenu()
 
     int materialMenuId = glutCreateMenu(materialMenu);
     glutAddMenuEntry("R/G/B/All",10);
-    glutAddMenuEntry("UNIMPLEMENTED: Ambient/Diffuse/Specular/Shine",20);
+//  IMPLEMENTED MENU ENTRY FOR PART C
+    glutAddMenuEntry("Ambient/Diffuse/Specular/Shine",20);
 
     int texMenuId = createArrayMenu(numTextures, textureMenuEntries, texMenu);
     int groundMenuId = createArrayMenu(numTextures, textureMenuEntries, groundMenu);
