@@ -343,7 +343,7 @@ void drawMesh(SceneObject sceneObj)
     // in the sceneObj structure (see near the top of the program).
 
 // PART B Implementation
-
+    // in order: scale -> rot x -> rotate y -> rotate z -> translate 
     mat4 model = Translate(sceneObj.loc) * RotateZ(sceneObj.angles[2]) * RotateY(sceneObj.angles[1]) * RotateX(sceneObj.angles[0]) * Scale(sceneObj.scale);
 
 
@@ -374,10 +374,14 @@ void display( void )
     // Set the view matrix. To start with this just moves the camera
     // backwards.  You'll need to add appropriate rotations.
 
+    //occurs last translate view away from origin
     view = Translate(0.0, 0.0, -viewDist);
 
 // PART A Implementation
+
+    // happens second, adjusts vertical or angle of depression
     view *= RotateX(camRotUpAndOverDeg);
+    // happens first, adjusts horizontal angle or bearing
     view *= RotateY(camRotSidewaysDeg);
 
 
@@ -621,15 +625,15 @@ void reshape( int width, int height )
     GLfloat nearDist = 0.02; //changed near dist
     GLfloat changeDist = 0.2; // old nearDist
 
-//  IMPLEMENTATION OF PART D
+//  IMPLEMENTATION OF PART E
 	if (width < height){
 		projection = Frustum(-nearDist, nearDist,
 							 -nearDist*(float)height/(float)width, nearDist*(float)height/(float)width,
-							 changeDist, 100.0);
+							 changeDist, 1000.0); //view distance corrected part D
 	} else {
 		projection = Frustum(-nearDist*(float)width/(float)height, nearDist*(float)width/(float)height,
 							 -nearDist, nearDist,
-							 changeDist, 100.0);
+							 changeDist, 1000.0); //view distance set to 10x what it was 
 	}
 }
 
